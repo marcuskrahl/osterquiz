@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { LatLng } from 'leaflet';
 
-interface Question {
+export interface QuestionOption {
+  answer: string;
+  correct: boolean;
+}
+export interface Question {
   id: number;
   questionText: string;
-  questionOptions: { answer: string; correct: boolean }[];
+  questionOptions: QuestionOption[];
 }
 
-type QuestionWithPosition = Question & { latlng: LatLng };
+export type QuestionWithPosition = Question & { latlng: LatLng };
 
 @Injectable({
   providedIn: 'root',
@@ -17,17 +21,29 @@ export class QuestionService {
     {
       id: 1,
       questionText: 'Wie lang ist ein 20 Meter B-Schlauch?',
-      questionOptions: [],
+      questionOptions: [
+        { answer: '15 Meter', correct: false },
+        { answer: '20 Meter', correct: true },
+        { answer: '30 Meter', correct: false },
+      ],
     },
     {
       id: 2,
       questionText: 'Wie lang ist ein 20 Meter C-Schlauch?',
-      questionOptions: [],
+      questionOptions: [
+        { answer: '15 Meter', correct: false },
+        { answer: '20 Meter', correct: true },
+        { answer: '30 Meter', correct: false },
+      ],
     },
     {
       id: 3,
       questionText: 'Wie lang ist ein 15 Meter C-Schlauch?',
-      questionOptions: [],
+      questionOptions: [
+        { answer: '15 Meter', correct: true },
+        { answer: '20 Meter', correct: false },
+        { answer: '30 Meter', correct: false },
+      ],
     },
   ];
 

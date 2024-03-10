@@ -1,19 +1,27 @@
 import { LocationChangeEvent } from '@angular/common';
-import { AfterViewInit, Component, Inject, Input, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+  inject,
+} from '@angular/core';
 import * as L from 'leaflet';
-import { QuestionService } from './question.service';
+import { QuestionService, QuestionWithPosition } from './question.service';
 
 @Component({
   selector: 'oq-map',
   template: `
-    <div id="map" class="map" [class.invisible]="!locationFix"></div>
     @if(!locationFix) {
     <div
       class="d-flex align-items-center justify-content-center map position-absolute, top-0, start-0"
     >
-      <span>Laden</span>
+      <span class="fs-3">Laden</span>
     </div>
     }
+    <div id="map" class="map" [class.invisible]="!locationFix"></div>
     <p [class.invisible]="!locationFix">
       Gehe zu den markierten Orten und beantworte die Fragen
     </p>
@@ -32,6 +40,12 @@ export class MapComponent implements AfterViewInit {
   @Input({ required: true })
   public route!: 'Innenstadt' | 'Gröba';
 
+  @Output()
+  public tooFar = new EventEmitter<void>();
+
+  @Output()
+  public showQuestion = new EventEmitter<QuestionWithPosition>();
+
   ngAfterViewInit(): void {
     L.Icon.Default.imagePath = '/assets/';
     this.map = L.map('map').fitWorld();
@@ -40,13 +54,20 @@ export class MapComponent implements AfterViewInit {
       maxZoom: 19,
       attribution: '© OpenStreetMap',
     }).addTo(this.map);
-    this.map.locate({ setView: true, maxZoom: 16, watch: true });
+    this.map.locate({ maxZoom: 16, watch: true });
     this.map.addEventListener('locationfound', (e) => this.locationFound(e));
 
     const questions = this.questionService.getQuestions(this.route);
     for (let question of questions) {
-      L.marker(question.latlng).addTo(this.map);
+      L.marker(question.latlng)
+        .addTo(this.map)
+        .addEventListener('click', () => this.handleClick(question));
     }
+  }
+
+  private handleClick(question: QuestionWithPosition): void {
+    //this.tooFar.emit(undefined);
+    this.showQuestion.emit(question);
   }
 
   private locationFound(e: L.LocationEvent): void {
@@ -60,6 +81,7 @@ export class MapComponent implements AfterViewInit {
 
     if (this.marker == undefined) {
       this.marker = L.marker(e.latlng).addTo(this.map);
+      this.map.setView(e.latlng, 16);
     } else {
       this.marker.setLatLng(e.latlng);
     }

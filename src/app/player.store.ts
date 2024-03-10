@@ -2,7 +2,9 @@ import { Injectable, effect, signal } from '@angular/core';
 
 interface PlayerData {
   route: 'Innenstadt' | 'Gröba' | undefined;
-  answered: number;
+  answers: {
+    [questionId: number]: boolean;
+  };
 }
 
 @Injectable({
@@ -11,7 +13,7 @@ interface PlayerData {
 export class PlayerStore {
   private readonly defaultPlayerData: PlayerData = {
     route: undefined,
-    answered: 0,
+    answers: {},
   };
 
   playerData = signal(this.getFromStore() ?? this.defaultPlayerData);
