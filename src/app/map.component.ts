@@ -33,6 +33,7 @@ export class MapComponent implements AfterViewInit {
   public route!: 'Innenstadt' | 'Gröba';
 
   ngAfterViewInit(): void {
+    L.Icon.Default.imagePath = '/assets/';
     this.map = L.map('map').fitWorld();
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
