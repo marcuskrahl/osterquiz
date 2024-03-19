@@ -6,10 +6,12 @@ import {
   Inject,
   Input,
   Output,
+  effect,
   inject,
 } from '@angular/core';
 import * as L from 'leaflet';
 import { QuestionService, QuestionWithPosition } from './question.service';
+import { PlayerStore } from './player.store';
 
 @Component({
   selector: 'oq-map',
@@ -46,6 +48,53 @@ export class MapComponent implements AfterViewInit {
   @Output()
   public showQuestion = new EventEmitter<QuestionWithPosition>();
 
+  private ownLatLng: L.LatLng | undefined;
+
+  private truckIcon = L.icon({
+    iconUrl: '/assets/fw.png',
+    shadowUrl: '',
+
+    iconSize: [80, 58], // size of the icon
+    shadowSize: [40, 64], // size of the shadow
+    iconAnchor: [40, 29], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62], // the same for the shadow
+    popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+  });
+
+  private fireIcon = L.icon({
+    iconUrl: '/assets/feuer.png',
+    shadowUrl: '',
+
+    iconSize: [50, 80], // size of the icon
+    shadowSize: [40, 64], // size of the shadow
+    iconAnchor: [25, 40], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62], // the same for the shadow
+    popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+  });
+
+  private fireOutIcon = L.icon({
+    iconUrl: '/assets/feuer_aus.png',
+    shadowUrl: '',
+
+    iconSize: [50, 80], // size of the icon
+    shadowSize: [40, 64], // size of the shadow
+    iconAnchor: [25, 40], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62], // the same for the shadow
+    popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+  });
+
+  private questionMarkers: { [questionId: number]: L.Marker } = {};
+
+  constructor(private playerStore: PlayerStore) {
+    effect(() => {
+      Object.keys(playerStore.playerData().answers).forEach((questionId) => {
+        if (!isNaN(parseInt(questionId))) {
+          this.questionMarkers[+questionId]?.setIcon(this.fireOutIcon);
+        }
+      });
+    });
+  }
+
   ngAfterViewInit(): void {
     L.Icon.Default.imagePath = '/assets/';
     this.map = L.map('map').fitWorld();
@@ -59,14 +108,21 @@ export class MapComponent implements AfterViewInit {
 
     const questions = this.questionService.getQuestions(this.route);
     for (let question of questions) {
-      L.marker(question.latlng)
+      const isAnswered =
+        this.playerStore.playerData().answers[question.id] != undefined;
+      this.questionMarkers[question.id] = L.marker(question.latlng)
+        .setIcon(isAnswered ? this.fireOutIcon : this.fireIcon)
         .addTo(this.map)
         .addEventListener('click', () => this.handleClick(question));
     }
   }
 
   private handleClick(question: QuestionWithPosition): void {
-    //this.tooFar.emit(undefined);
+    if (this.ownLatLng == undefined) {
+      return this.tooFar.emit(undefined);
+    } else if (question.latlng.distanceTo(this.ownLatLng) > 20) {
+      return this.tooFar.emit(undefined);
+    }
     this.showQuestion.emit(question);
   }
 
@@ -80,11 +136,15 @@ export class MapComponent implements AfterViewInit {
       .openPopup();*/
 
     if (this.marker == undefined) {
-      this.marker = L.marker(e.latlng).addTo(this.map);
+      this.marker = L.marker(e.latlng)
+        .setIcon(this.truckIcon)
+        .addTo(this.map)
+        .setZIndexOffset(-400);
       this.map.setView(e.latlng, 16);
     } else {
       this.marker.setLatLng(e.latlng);
     }
+    this.ownLatLng = e.latlng;
 
     if (this.circle == undefined) {
       this.circle = L.circle(e.latlng, radius).addTo(this.map);
