@@ -103,7 +103,7 @@ export class MapComponent implements AfterViewInit {
       maxZoom: 19,
       attribution: '© OpenStreetMap',
     }).addTo(this.map);
-    this.map.locate({ maxZoom: 16, watch: true });
+    this.map.locate({ maxZoom: 16, watch: true, enableHighAccuracy: true });
     this.map.addEventListener('locationfound', (e) => this.locationFound(e));
 
     const questions = this.questionService.getQuestions(this.route);
