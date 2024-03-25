@@ -29,4 +29,9 @@ export class AppComponent {
       route,
     }));
   }
+
+  public reset(): void {
+    this.playerStore.playerData.set({ answers: {}, route: undefined });
+    window.location.reload();
+  }
 }

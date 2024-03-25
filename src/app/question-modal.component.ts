@@ -54,7 +54,9 @@ import { PlayerStore } from './player.store';
             <span class="text-success">Die Frage wurde richtig beanwortet</span>
             } @else {
             <span class="text-danger">Die Frage wurde falsch beantwortet</span>
-            } }
+            }
+            <p class="mt-3">{{ question?.answerText }}</p>
+            }
           </div>
           <div class="modal-footer">
             @if(answered === false) {

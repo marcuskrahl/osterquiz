@@ -120,7 +120,7 @@ export class MapComponent implements AfterViewInit {
   private handleClick(question: QuestionWithPosition): void {
     if (this.ownLatLng == undefined) {
       return this.tooFar.emit(undefined);
-    } else if (question.latlng.distanceTo(this.ownLatLng) > 20) {
+    } else if (question.latlng.distanceTo(this.ownLatLng) > 30 && false) {
       return this.tooFar.emit(undefined);
     }
     this.showQuestion.emit(question);
@@ -128,7 +128,7 @@ export class MapComponent implements AfterViewInit {
 
   private locationFound(e: L.LocationEvent): void {
     this.locationFix = true;
-    var radius = e.accuracy;
+    var radius = 30; //e.accuracy;
 
     /*L.marker(e.latlng)
       .addTo(this.map)

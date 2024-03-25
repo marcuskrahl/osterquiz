@@ -1,6 +1,9 @@
 <div class="container">
-  <h1 class="my-3">
+  <h1 class="my-3 d-flex justify-content-between">
     <span>Osterquiz der Feuerwehr Riesa</span>
+    <button type="button" class="btn btn-danger ml-6" (click)="reset()">
+      Zurücksetzen
+    </button>
   </h1>
 
   @if(playerStore.playerData().route == undefined) {
@@ -24,6 +27,25 @@
       Route Gröba
     </button>
   </div>
+  } @else if(playerStore.answeredQuestions() === playerStore.totalQuestions()) {
+  <p class="lead">Alle Fragen beantwortet</p>
+  <p>
+    Ihr habt alle Stationen absolviert und konntet
+    <strong>{{ playerStore.correctAnswers() }}</strong> Fragen richtig
+    beantworten.
+  </p>
+  @if (playerStore.playerData().route === 'Innenstadt') {
+  <p>
+    Als Belohnung wartet beim Osterfeuer der Feuerwehr Riesa-Stadt auf der
+    Pausitzer Straße eine Überraschung auf euch.
+  </p>
+  } @else {
+  <p>
+    Als Belohnung wartet beim Osterfeuer der Feuerwehr Riesa-Gröba auf der
+    Mozartstraße eine Überraschung auf euch.
+  </p>
+  }
+  <p class="lead">Wir wünschen euch Frohe Ostern!</p>
   } @else {
   <p class="lead d-flex justify-content-between">
     <span>Route: {{ playerStore.playerData().route }}</span>
