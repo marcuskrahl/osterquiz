@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: php-app
-          path: release.zip
+          path: dist/osterquiz/browser/release.zip
 
   deploy:
     runs-on: ubuntu-latest
