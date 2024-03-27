@@ -34,4 +34,12 @@ export class AppComponent {
     this.playerStore.playerData.set({ answers: {}, route: undefined });
     window.location.reload();
   }
+
+  public switchRoute(): void {
+    this.playerStore.playerData.update((pd) => ({
+      ...pd,
+      route: pd.route === 'Innenstadt' ? 'Gröba' : 'Innenstadt',
+    }));
+    window.location.reload();
+  }
 }

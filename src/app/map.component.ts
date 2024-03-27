@@ -140,7 +140,18 @@ export class MapComponent implements AfterViewInit {
         .setIcon(this.truckIcon)
         .addTo(this.map)
         .setZIndexOffset(-400);
-      this.map.setView(e.latlng, 16);
+
+      // Create an empty LatLngBounds object
+      var bounds = new L.LatLngBounds(e.latlng, e.latlng);
+
+      // Extend bounds with each point
+      Object.values(this.questionMarkers).forEach(function (point) {
+        bounds.extend(point.getLatLng());
+      });
+
+      // Fit the map to the bounds
+      this.map.fitBounds(bounds);
+      //this.map.setView(e.latlng, 16);
     } else {
       this.marker.setLatLng(e.latlng);
     }

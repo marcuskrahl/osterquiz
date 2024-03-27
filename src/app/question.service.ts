@@ -57,32 +57,34 @@ export class QuestionService {
     },
     {
       id: 4,
-      questionText: 'Platzhalter?',
+      questionText: 'Wofür steht die Abkürzung TLF bei der Feuerwehr?',
       questionOptions: [
-        { answer: 'richtig', correct: true },
-        { answer: 'falsch', correct: false },
-        { answer: 'falsch', correct: false },
+        { answer: 'Tierlachfreunde', correct: false },
+        { answer: 'Tanklöschfahrzeug', correct: true },
+        { answer: 'Trockenluftfontäne', correct: false },
       ],
-      answerText: 'Antwort',
+      answerText:
+        'Die Abkürzung TLF steht für Tanklöschfahrzeug. Riesa verfügt über ein Tanklöschfahrzeug, das bei der Stadtteilfeuerwehr Riesa-Stadt positioniert ist und überörtlich unter anderem bei Waldbränden ausrückt.',
     },
     {
       id: 5,
-      questionText: 'Platzhalter?',
+      questionText: 'Wie viele Stadtteilfeuerwehren hat Riesa?',
       questionOptions: [
-        { answer: 'richtig', correct: true },
-        { answer: 'falsch', correct: false },
-        { answer: 'falsch', correct: false },
+        { answer: '1', correct: false },
+        { answer: '3', correct: false },
+        { answer: '7', correct: true },
       ],
-      answerText: 'Antwort',
+      answerText:
+        'Riesa hat im Stadtgebiet drei Stadtteilfeuerwehren: In der Innenstadt, in Gröba und in Weida. Weiterhin gibt es Wachen in den umliegenden Dörfern in Canitz, Nickritz und Leutewitz. Zu guter Letzt gibt es noch die Hauptwache, die durch hauptamtliche Kräfte rund um die Uhr besetzt ist.',
     },
   ];
 
   private coordinatesInnenstadt: { [key: number]: LatLng } = {
-    1: new LatLng(51.30221904607388, 13.311786263774339),
-    2: new LatLng(51.30427, 13.31283),
-    3: new LatLng(51.30275, 13.31237),
-    4: new LatLng(51.30579392604989, 13.312381571555314),
-    5: new LatLng(51.30477535848486, 13.317394689035547),
+    1: new LatLng(51.30599105178189, 13.31040527478198), // Jahna Brücke Bootshaus
+    2: new LatLng(51.304036186864884, 13.3127932224935), // Freitreppe
+    3: new LatLng(51.30292, 13.31583), //Jahna Brücke Tiergarten + Reiter
+    4: new LatLng(51.30623507534618, 13.318186574746576), //ecke reiter nähe Marinekameradschaft
+    5: new LatLng(51.305441519639736, 13.314277625203525), //mitte stadtpark
   };
 
   private coordinatesGroeba: { [key: number]: LatLng } = {

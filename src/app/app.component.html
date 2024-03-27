@@ -16,16 +16,44 @@
   <p>Für alle Ratefüchse wartet am Ende der Route eine kleine Überraschung.</p>
   <p>Wir wünschen euch viel Spaß!</p>
   <div style="display: flex; justify-content: space-around">
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="setRoute('Innenstadt')"
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      "
     >
-      Route Innenstadt
-    </button>
-    <button type="button" class="btn btn-primary" (click)="setRoute('Gröba')">
-      Route Gröba
-    </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="setRoute('Innenstadt')"
+      >
+        Route Innenstadt
+      </button>
+      <img
+        (click)="setRoute('Innenstadt')"
+        src="assets/route_innenstadt.png"
+        style="width: 30vw; aspect-ratio: 4/3; object-fit: cover"
+      />
+    </div>
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      "
+    >
+      <button type="button" class="btn btn-primary" (click)="setRoute('Gröba')">
+        Route Gröba
+      </button>
+      <img
+        (click)="setRoute('Gröba')"
+        src="assets/route_groeba.png"
+        style="width: 30vw; aspect-ratio: 4/3; object-fit: cover"
+      />
+    </div>
   </div>
   } @else if(playerStore.answeredQuestions() === playerStore.totalQuestions()) {
   <p class="lead">Alle Fragen beantwortet</p>
@@ -48,7 +76,10 @@
   <p class="lead">Wir wünschen euch Frohe Ostern!</p>
   } @else {
   <p class="lead d-flex justify-content-between">
-    <span>Route: {{ playerStore.playerData().route }}</span>
+    <span
+      >Route: {{ playerStore.playerData().route }}
+      <a href="#" (click)="switchRoute()">(Wechseln)</a></span
+    >
     <oq-answer-state
       [route]="playerStore.playerData().route!"
     ></oq-answer-state>
