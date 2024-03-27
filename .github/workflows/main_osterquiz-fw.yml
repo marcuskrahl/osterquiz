@@ -39,7 +39,7 @@ jobs:
       - name: build
         run: npm run build
       - name: Zip artifact for deployment
-        working-directory: ./dist/osterquit/browser
+        working-directory: dist/osterquiz/browser
         run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
