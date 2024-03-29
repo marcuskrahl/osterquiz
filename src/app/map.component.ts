@@ -25,7 +25,8 @@ import { PlayerStore } from './player.store';
     }
     <div id="map" class="map" [class.invisible]="!locationFix"></div>
     <p [class.invisible]="!locationFix">
-      Gehe zu den markierten Orten und beantworte die Fragen
+      Gehe zu den markierten Orten und beantworte die Fragen. Berühre die
+      brennenden Häuser, um die Fragen zu beantworten.
     </p>
   `,
   standalone: true,
