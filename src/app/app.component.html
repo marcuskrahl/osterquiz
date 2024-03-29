@@ -1,9 +1,9 @@
 <div class="container">
   <h1 class="my-3 d-flex justify-content-between">
     <span>Osterquiz der Feuerwehr Riesa</span>
-    <button type="button" class="btn btn-danger ml-6" (click)="reset()">
+    <!--<button type="button" class="btn btn-danger ml-6" (click)="reset()">
       Zurücksetzen
-    </button>
+    </button>-->
   </h1>
 
   @if(playerStore.playerData().route == undefined) {
@@ -67,14 +67,22 @@
     Als Belohnung wartet beim Osterfeuer der Feuerwehr Riesa-Stadt auf der
     Pausitzer Straße eine Überraschung auf euch.
   </p>
+  <p class="lead">Wir wünschen euch Frohe Ostern!</p>
+  <img
+    src="assets/flyer_stadt.png"
+    style="width: 80vw; margin-left: auto; margin-right: auto"
+  />
   } @else {
   <p>
     Als Belohnung wartet beim Osterfeuer der Feuerwehr Riesa-Gröba auf der
     Mozartstraße eine Überraschung auf euch.
   </p>
-  }
   <p class="lead">Wir wünschen euch Frohe Ostern!</p>
-  } @else {
+  <img
+    src="assets/flyer_groeba.jpg"
+    style="width: 80vw; margin-left: auto; margin-right: auto"
+  />
+  } } @else {
   <p class="lead d-flex justify-content-between">
     <span
       >Route: {{ playerStore.playerData().route }}
