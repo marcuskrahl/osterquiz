@@ -121,7 +121,10 @@ export class MapComponent implements AfterViewInit {
   private handleClick(question: QuestionWithPosition): void {
     if (this.ownLatLng == undefined) {
       return this.tooFar.emit(undefined);
-    } else if (question.latlng.distanceTo(this.ownLatLng) > 30) {
+    } else if (
+      question.latlng.distanceTo(this.ownLatLng) > 30 &&
+      !window.location.search.includes('ignoreDistance')
+    ) {
       return this.tooFar.emit(undefined);
     }
     this.showQuestion.emit(question);
