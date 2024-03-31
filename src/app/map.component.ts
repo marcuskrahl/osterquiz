@@ -8,6 +8,7 @@ import {
   Output,
   effect,
   inject,
+  signal,
 } from '@angular/core';
 import * as L from 'leaflet';
 import { QuestionService, QuestionWithPosition } from './question.service';
@@ -20,7 +21,7 @@ import { PlayerStore } from './player.store';
     <div
       class="d-flex align-items-center justify-content-center map position-absolute, top-0, start-0"
     >
-      <span class="fs-3">Laden</span>
+      <span class="fs-3">{{ ladenText() }}</span>
     </div>
     }
     <div id="map" class="map" [class.invisible]="!locationFix"></div>
@@ -86,6 +87,8 @@ export class MapComponent implements AfterViewInit {
 
   private questionMarkers: { [questionId: number]: L.Marker } = {};
 
+  public ladenText = signal('Laden');
+
   constructor(private playerStore: PlayerStore) {
     effect(() => {
       Object.keys(playerStore.playerData().answers).forEach((questionId) => {
@@ -94,6 +97,13 @@ export class MapComponent implements AfterViewInit {
         }
       });
     });
+    window.setTimeout(
+      () =>
+        this.ladenText.set(
+          'Die Standortbestimmung scheint nicht zu funktionieren. Kommt trotzdem gern bei den Osterfeuern vorbei und erhaltet eine Kleinigkeit.'
+        ),
+      10_000
+    );
   }
 
   ngAfterViewInit(): void {
